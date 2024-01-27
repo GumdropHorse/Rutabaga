@@ -11,7 +11,7 @@ const client = new MongoClient(uri, {});
 app.use(express.static(path.join(__dirname, 'web')));
 
 app.get('/', (req, res) => {
-  res.sendFile(path.join(__dirname, 'web', 'list.html'));
+  res.sendFile(path.join(__dirname, 'web', 'main.html'));
 });
 
 app.get('/api/items', async (req, res) => {
