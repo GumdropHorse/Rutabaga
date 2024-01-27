@@ -15,6 +15,16 @@ body {
     max-height: 300px;
     overflow-y: auto;
     border: 1px solid #ccc;
+    position: relative;
+  }
+  
+  input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 1;
   }
   
   ul {
@@ -23,11 +33,17 @@ body {
   }
   
   li {
+    display: flex; /* Use flex layout for better alignment */
+    align-items: center; /* Center items vertically in the list item */
     padding: 10px;
     border-bottom: 1px solid #eee;
   }
   
   li:last-child {
     border-bottom: none;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
   }
   

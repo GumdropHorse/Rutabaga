@@ -1,5 +1,3 @@
-// server.js
-
 const express = require('express');
 const path = require('path');
 const { MongoClient } = require('mongodb');
@@ -8,7 +6,7 @@ const app = express();
 const port = 3000;
 
 const uri = 'mongodb+srv://spartahack9:msu@plantdatabase.wvg4q13.mongodb.net/?retryWrites=true&w=majority';
-const client = new MongoClient(uri, {/* useNewUrlParser: true, useUnifiedTopology: true */});
+const client = new MongoClient(uri, {});
 
 app.use(express.static(path.join(__dirname, 'web')));
 
