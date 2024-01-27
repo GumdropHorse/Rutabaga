@@ -1,12 +1,20 @@
-import matplotlib.pyplot as plt
 import pandas as pd
-from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import plotly.express as px
+
+
 
 # List of plants that go on upper level
 tall_plants = ['sunflower']
 
-def update_plot(selected_plants):
-    
+
+def on_click(sel):
+    # Display information for the clicked plant
+    x, y = sel.target
+    ind = int(x) - 1  # Convert x-coordinate to index
+    print(plants['info'].iloc[ind])
+
+
+def create_plants_df(selected_plants):
     # Create plants dataFrame
     plant_num = len(selected_plants)
     image_list = []
@@ -19,42 +27,52 @@ def update_plot(selected_plants):
         if plant in tall_plants:
             y_coord[i] = 1
 
-
     plants = pd.DataFrame({
         'plant_name': selected_plants,
         'x_coordinate': list(range(1, plant_num+1)),
         'y_coordinate': y_coord,
-        'image_url': image_list
+        'image_url': image_list,
+        'info': [f'Info {plant}' for plant in selected_plants]
     })
 
-    # Create scatter plot
-    plt.figure(figsize=(8, 6))
-    plt.scatter(plants['x_coordinate'], plants['y_coordinate'], s=0,
-     c=range(len(plants)), cmap='viridis') # Colors are here for testing purposes
+    return plants
+
+def update_plot(selected_plants):
+
+    global plants
+    plants = create_plants_df(selected_plants)
+
+    # Create a Plotly scatter plot
+    fig = px.scatter(plants, x='x_coordinate', y='y_coordinate', color=plants.index,
+                     hover_name='plant_name', hover_data=['info'],
+                     text='plant_name')
+
 
 
     # Images replace points
     for i, (x, y, img_path) in enumerate(plants[['x_coordinate', 'y_coordinate', 'image_url']].itertuples(index=False)):
-        img = plt.imread(img_path)
-        imagebox = OffsetImage(img, zoom=0.15)  # zoom factor
-        plt.gca().add_artist(AnnotationBbox(imagebox, (x, y), frameon=False, pad=0))
+        fig.add_layout_image(
+            source=img_path,
+            x=x, y=y,
+            xanchor="center", yanchor="middle",
+            sizex=0.15, sizey=0.15,
+            opacity=1,
+            layer="above"
+        )
 
+    # Update layout
+    fig.update_layout(
+        title_text='Your Plot',
+        xaxis=dict(tickvals=plants['x_coordinate'], ticktext=plants['plant_name']),
+        yaxis=dict(visible=False),
+    )
+
+    # Save the plot as an HTML file
+    fig.write_html('templates/plot.html')
     # Plot styling
-    plt.title('Your Plot')
-    plt.xticks([])
-    plt.yticks([])
-    plt.gca().spines['top'].set_visible(False)
-    plt.gca().spines['right'].set_visible(False)
-    plt.gca().spines['bottom'].set_visible(False)
-    plt.gca().spines['left'].set_visible(False)
-    plt.ylim(-1,2)
 
-    for i, txt in enumerate(plants['plant_name']):
-        plt.annotate(txt, (plants['x_coordinate'].iloc[i], plants['y_coordinate'].iloc[i]), ha='right')
 
-    # Display the plot
-    plt.legend()
-    plt.show()
+    #plt.ylim(-1,2)
 
 # Example of updating the plot
-update_plot(['sunflower', 'rose', 'rudabaga'])
+update_plot(['sunflower', 'rose', 'rudabaga', 'sunflower', 'rose'])

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plant Garden Visualization</title>
+    <script src="https://cdn.plot.ly/plotly-latest.min.js"></script>
+</head>
+<body>
+    <h1>Plant Garden Visualization</h1>
+    <div id="plot-container"></div>
+
+    <script>
+        // Load the Plotly plot from the generated HTML file
+        Plotly.d3.text("plot.html", function(error, data) {
+            if (error) return console.warn(error);
+            var container = document.getElementById("plot-container");
+            container.innerHTML = data;
+        });
+    </script>
+</body>
+</html>
