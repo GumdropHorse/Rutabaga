@@ -2,44 +2,59 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 
-df = pd.DataFrame({
-    'plant_name': ['Rose', 'Rudabaga', 'Sunflower'],
-    'x_coordinate': [1, 2, 3],
-    'y_coordinate': [1, 1, 1],
-    'image_url': ['images/rose.png', 'images/rudabaga.png', 'images/sunflower.png']
-})
+# List of plants that go on upper level
+tall_plants = ['sunflower']
 
 def update_plot(selected_plants):
-    # Filter the DataFrame based on selected plants
-    filtered_df = df[df['plant_name'].isin(selected_plants)]
+    
+    # Create plants dataFrame
+    plant_num = len(selected_plants)
+    image_list = []
+    y_coord = [0] * plant_num
+    for i, plant in enumerate (selected_plants):
+        image = f"images/{plant}.png"
+        image_list.append(image)
 
-    # Order the DataFrame based on the order of selected plants
-    filtered_df['x_coordinate'] = filtered_df['plant_name'].map({plant: i+1 for i, plant in enumerate(selected_plants)})
+        # If the plant is a tall plant it instead raises it up
+        if plant in tall_plants:
+            y_coord[i] = 1
 
+
+    plants = pd.DataFrame({
+        'plant_name': selected_plants,
+        'x_coordinate': list(range(1, plant_num+1)),
+        'y_coordinate': y_coord,
+        'image_url': image_list
+    })
 
     # Create scatter plot
     plt.figure(figsize=(8, 6))
-    plt.scatter(filtered_df['x_coordinate'], filtered_df['y_coordinate'], s=100,
-     label='Selected Plants', c=range(len(filtered_df)), cmap='viridis')
+    plt.scatter(plants['x_coordinate'], plants['y_coordinate'], s=0,
+     c=range(len(plants)), cmap='viridis') # Colors are here for testing purposes
 
 
     # Images replace points
-    for i, (x, y, img_path) in enumerate(filtered_df[['x_coordinate', 'y_coordinate', 'image_url']].itertuples(index=False)):
+    for i, (x, y, img_path) in enumerate(plants[['x_coordinate', 'y_coordinate', 'image_url']].itertuples(index=False)):
         img = plt.imread(img_path)
         imagebox = OffsetImage(img, zoom=0.15)  # zoom factor
         plt.gca().add_artist(AnnotationBbox(imagebox, (x, y), frameon=False, pad=0))
 
-    # Labels and title
-    plt.xlabel('X Coordinate')
-    plt.ylabel('Y Coordinate')
-    plt.title('Garden Visualization')
+    # Plot styling
+    plt.title('Your Plot')
+    plt.xticks([])
+    plt.yticks([])
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['bottom'].set_visible(False)
+    plt.gca().spines['left'].set_visible(False)
+    plt.ylim(-1,2)
 
-    for i, txt in enumerate(filtered_df['plant_name']):
-        plt.annotate(txt, (filtered_df['x_coordinate'].iloc[i], filtered_df['y_coordinate'].iloc[i]), ha='right')
+    for i, txt in enumerate(plants['plant_name']):
+        plt.annotate(txt, (plants['x_coordinate'].iloc[i], plants['y_coordinate'].iloc[i]), ha='right')
 
     # Display the plot
     plt.legend()
     plt.show()
 
 # Example of updating the plot
-update_plot(['Sunflower', 'Rose', 'Rudabaga', 'Rudabaga'])
+update_plot(['sunflower', 'rose', 'rudabaga'])
