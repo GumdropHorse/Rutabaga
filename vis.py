@@ -4,8 +4,12 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import mplcursors
 
 
+
+
 # List of plants that go on upper level
 tall_plants = ['sunflower']
+
+
 
 
 def on_click(sel):
@@ -13,6 +17,8 @@ def on_click(sel):
     x, y = sel.target
     ind = int(x) - 1  # Convert x-coordinate to index
     print(plants['info'].iloc[ind])
+
+
 
 
 def create_plants_df(selected_plants):
@@ -24,9 +30,11 @@ def create_plants_df(selected_plants):
         image = f"images/{plant}.png"
         image_list.append(image)
 
+
         # If the plant is a tall plant it instead raises it up
         if plant in tall_plants:
             y_coord[i] = 1
+
 
     plants = pd.DataFrame({
         'plant_name': selected_plants,
@@ -36,12 +44,16 @@ def create_plants_df(selected_plants):
         'info': [f'Info {plant}' for plant in selected_plants]
     })
 
+
     return plants
+
 
 def update_plot(selected_plants):
 
+
     global plants
     plants = create_plants_df(selected_plants)
+
 
     # Create scatter plot
     plt.figure(figsize=(8, 6))
@@ -49,11 +61,14 @@ def update_plot(selected_plants):
      c=range(len(plants)), cmap='viridis') # Colors are here for testing purposes
 
 
+
+
     # Images replace points
     for i, (x, y, img_path) in enumerate(plants[['x_coordinate', 'y_coordinate', 'image_url']].itertuples(index=False)):
         img = plt.imread(img_path)
         imagebox = OffsetImage(img, zoom=0.15)  # zoom factor
         plt.gca().add_artist(AnnotationBbox(imagebox, (x, y), frameon=False, pad=0))
+
 
     # Plot styling
     plt.title('Your Plot')
@@ -65,14 +80,19 @@ def update_plot(selected_plants):
     plt.gca().spines['left'].set_visible(False)
     plt.ylim(-1,2)
 
+
     # Add annotation names to the plants
     for i, txt in enumerate(plants['plant_name']):
         plt.annotate(txt, (plants['x_coordinate'].iloc[i], plants['y_coordinate'].iloc[i]), ha='right')
 
+
     mplcursors.cursor(hover=True).connect("add", on_click)
+
 
     # Display the plot
     plt.show()
 
+
 # Example of updating the plot
 update_plot(['sunflower', 'rose', 'rudabaga', 'sunflower', 'rose'])
+
