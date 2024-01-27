@@ -1,6 +1,7 @@
+import matplotlib.pyplot as plt
 import pandas as pd
-import plotly.express as px
-
+from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+import mplcursors
 
 
 # List of plants that go on upper level
@@ -42,37 +43,36 @@ def update_plot(selected_plants):
     global plants
     plants = create_plants_df(selected_plants)
 
-    # Create a Plotly scatter plot
-    fig = px.scatter(plants, x='x_coordinate', y='y_coordinate', color=plants.index,
-                     hover_name='plant_name', hover_data=['info'],
-                     text='plant_name')
-
+    # Create scatter plot
+    plt.figure(figsize=(8, 6))
+    plt.scatter(plants['x_coordinate'], plants['y_coordinate'], s=1000,
+     c=range(len(plants)), cmap='viridis') # Colors are here for testing purposes
 
 
     # Images replace points
     for i, (x, y, img_path) in enumerate(plants[['x_coordinate', 'y_coordinate', 'image_url']].itertuples(index=False)):
-        fig.add_layout_image(
-            source=img_path,
-            x=x, y=y,
-            xanchor="center", yanchor="middle",
-            sizex=0.15, sizey=0.15,
-            opacity=1,
-            layer="above"
-        )
+        img = plt.imread(img_path)
+        imagebox = OffsetImage(img, zoom=0.15)  # zoom factor
+        plt.gca().add_artist(AnnotationBbox(imagebox, (x, y), frameon=False, pad=0))
 
-    # Update layout
-    fig.update_layout(
-        title_text='Your Plot',
-        xaxis=dict(tickvals=plants['x_coordinate'], ticktext=plants['plant_name']),
-        yaxis=dict(visible=False),
-    )
-
-    # Save the plot as an HTML file
-    fig.write_html('templates/plot.html')
     # Plot styling
+    plt.title('Your Plot')
+    plt.xticks([])
+    plt.yticks([])
+    plt.gca().spines['top'].set_visible(False)
+    plt.gca().spines['right'].set_visible(False)
+    plt.gca().spines['bottom'].set_visible(False)
+    plt.gca().spines['left'].set_visible(False)
+    plt.ylim(-1,2)
 
+    # Add annotation names to the plants
+    for i, txt in enumerate(plants['plant_name']):
+        plt.annotate(txt, (plants['x_coordinate'].iloc[i], plants['y_coordinate'].iloc[i]), ha='right')
 
-    #plt.ylim(-1,2)
+    mplcursors.cursor(hover=True).connect("add", on_click)
+
+    # Display the plot
+    plt.show()
 
 # Example of updating the plot
 update_plot(['sunflower', 'rose', 'rudabaga', 'sunflower', 'rose'])
