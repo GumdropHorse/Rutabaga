@@ -1,0 +1,144 @@
+:root{
+    --main-color: #3498db;
+    --seconday-color: #3498db;
+    --third-color: #3498db;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: #D2B48C;
+  }
+  
+  h1 {
+    color: #333;
+  }
+  
+  #contentList {
+    margin-top: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #392939;
+    position: absolute;
+    display: none;
+    background-color: #800080;
+    z-index: 2;
+    width: 50%;
+    left: 30%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  #newList {
+    margin-top: 20px;
+    max-height: 500px;
+    overflow-y: auto;
+    border: 1px solid #392939;
+    position: absolute;
+    display: none;
+    background-color: #800080;
+    z-index: 2;
+    width: 50%;
+    left: 30%;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+
+  input[type="text"] {
+    padding: 10px;
+    margin-bottom: 10px;
+    position: sticky;
+    top: 0;
+    background-color: white;
+    z-index: 3;
+  }
+
+  #toggleNewListButton{
+    padding: 10px;
+    margin-bottom: 10px;
+    position: sticky;
+    bottom: 0;
+    background-color: white;
+    z-index: 3;
+    --main-color: #D2B48C;
+    --seconday-color: #f7e2c7;
+    --third-color: #7d684c;
+  }
+
+  #toggleListButton{
+    --main-color: #800080;
+    --seconday-color: #c92ac9;
+    --third-color: #540054;
+  }
+  
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  li {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #392939;
+    color: white;
+  }
+  
+  li:last-child {
+    border-bottom: none;
+  }
+  
+  input[type="checkbox"] {
+    margin-right: 10px;
+  }
+
+.button-29 {
+  align-items: center;
+  appearance: none;
+  background-image: radial-gradient(100% 100% at 100% 0, var(--seconday-color) 0, var(--main-color) 100%);
+  border: 0;
+  border-radius: 6px;
+  box-shadow: rgba(45, 35, 66, .4) 0 2px 4px,rgba(45, 35, 66, .3) 0 7px 13px -3px,rgba(58, 65, 111, .5) 0 -3px 0 inset;
+  box-sizing: border-box;
+  color: #fff;
+  cursor: pointer;
+  display: inline-flex;
+  font-family: "JetBrains Mono",monospace;
+  height: 48px;
+  justify-content: center;
+  line-height: 1;
+  list-style: none;
+  overflow: hidden;
+  padding-left: 16px;
+  padding-right: 16px;
+  position: relative;
+  text-align: left;
+  text-decoration: none;
+  transition: box-shadow .15s,transform .15s;
+  user-select: none;
+  -webkit-user-select: none;
+  touch-action: manipulation;
+  white-space: nowrap;
+  will-change: box-shadow,transform;
+  font-size: 18px;
+}
+
+.button-29:focus {
+  box-shadow: var(--third-color) 0 0 0 1.5px inset, rgba(45, 35, 66, .4) 0 2px 4px, rgba(45, 35, 66, .3) 0 7px 13px -3px, var(--third-color) 0 -3px 0 inset;
+}
+
+.button-29:hover {
+  box-shadow: rgba(45, 35, 66, .4) 0 4px 8px, rgba(45, 35, 66, .3) 0 7px 13px -3px, var(--third-color) 0 -3px 0 inset;
+  transform: translateY(-2px);
+}
+
+.button-29:active {
+  box-shadow: var(--third-color) 0 3px 7px inset;
+  transform: translateY(2px);
+}
