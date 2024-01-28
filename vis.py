@@ -1,21 +1,9 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
-import mplcursors
-
 
 # List of plants that go on upper level
 tall_plants = ['sunflower']
-
-
-
-
-def on_click(sel):
-    # Display information for the clicked plant
-    x, y = sel.target
-    ind = int(x) - 1  # Convert x-coordinate to index
-    print(plants['info'].iloc[ind])
-
 
 
 
@@ -84,11 +72,11 @@ def update_plot(selected_plants):
         plt.annotate(txt, (plants['x_coordinate'].iloc[i], plants['y_coordinate'].iloc[i]), ha='right')
 
 
-    mplcursors.cursor(hover=True).connect("add", on_click)
-
-
     # Display the plot
+    plt.savefig('images/plot.png')
     plt.show()
+
+    
 
 
 # Example of updating the plot
