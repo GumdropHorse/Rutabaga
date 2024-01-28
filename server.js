@@ -1,16 +1,19 @@
 const express = require('express');
+const cors = require('cors');
 const path = require('path');
 const { MongoClient } = require('mongodb');
 
 const app = express();
 const port = 3000;
 
+app.use(cors());
+app.use(bodyParser.json());
+
 const uri = 'mongodb+srv://spartahack9:msu@plantdatabase.wvg4q13.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(uri, {});
 const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
 
-app.use(bodyParser.json());
 app.post('/api/process-list', (req, res) => {
     const selectedItems = req.body;
     console.log(selectedItems);
