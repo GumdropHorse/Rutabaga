@@ -47,17 +47,18 @@ function displayPlot(plants) {
         marker: {
             symbol: 'circle',
             size: 10,
-            color: 'red',
+            color: 'transparent',
             opacity: 0.7,
             // Set the array of image URLs for each data point
             images: plants.imageUrls.map(url => ({
-                source: url,
+                source: 'images/rose.png',
                 x: plants.xData[plants.imageUrls.indexOf(url)],
                 y: plants.yData[plants.imageUrls.indexOf(url)],
                 sizex: 20,
                 sizey: 20,
                 xanchor: 'center',
-                yanchor: 'center'
+                yanchor: 'center',
+                layer: 'above'
             }))
         }
     };
