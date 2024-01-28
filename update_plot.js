@@ -43,6 +43,5 @@ function displayPlot(plotData) {
         xaxis: { title: 'X-axis' },
         yaxis: { title: 'Y-axis' }
     };
-
     Plotly.newPlot('plot-container', [trace], layout);
 }
