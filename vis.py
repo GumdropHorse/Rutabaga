@@ -4,8 +4,6 @@ from matplotlib.offsetbox import OffsetImage, AnnotationBbox
 import mplcursors
 
 
-
-
 # List of plants that go on upper level
 tall_plants = ['sunflower']
 
