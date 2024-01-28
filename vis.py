@@ -43,8 +43,7 @@ def update_plot(selected_plants):
 
     # Create scatter plot
     plt.figure(figsize=(8, 6))
-    plt.scatter(plants['x_coordinate'], plants['y_coordinate'], s=1000,
-     c=range(len(plants)), cmap='viridis') # Colors are here for testing purposes
+    plt.scatter(plants['x_coordinate'], plants['y_coordinate'], s=1000)
 
 
 
