@@ -45,7 +45,7 @@ body {
     transform: translateY(-50%);
   }
   
-  #newList {
+  #overall {
     margin-top: 20px;
     max-height: 500px;
     overflow-y: auto;
@@ -53,11 +53,18 @@ body {
     position: absolute;
     display: none;
     background-color: #800080;
-    z-index: 2;
-    width: 50%;
+    z-index: 1;
     left: 30%;
     top: 50%;
     transform: translateY(-50%);
+  }
+
+  #plot-container {
+    display: none;
+  }
+
+  #info-container {
+    display: none;
   }
 
   input[type="text"] {

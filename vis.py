@@ -1,6 +1,27 @@
 import matplotlib.pyplot as plt
 import pandas as pd
 from matplotlib.offsetbox import OffsetImage, AnnotationBbox
+from flask import Flask, request, jsonify
+import json
+import requests
+
+
+response = requests.get('http://localhost:3000/api/process-list')
+data = response.json()
+app = Flask(__name__)
+
+@app.route('/api/process-list', methods=['POST'])
+def process_list():
+    data = request.json  # Get JSON data from the request body
+    # Process the list in Python (replace this with your logic)
+    processed_data = [item * 2 for item in data]
+    return jsonify({'result': processed_data})
+
+if __name__ == '__main__':
+    try:
+        app.run(port=5000)
+    except Exception as e:
+        print(f"Error: {e}")
 
 # List of plants that go on upper level
 tall_plants = ['sunflower']
@@ -34,7 +55,7 @@ def create_plants_df(selected_plants):
     return plants
 
 
-def update_plot(selected_plants):
+def update_pl(selected_plants):
 
 
     global plants
@@ -74,11 +95,11 @@ def update_plot(selected_plants):
 
     # Display the plot
     plt.savefig('images/plot.png')
-    plt.show()
+    #plt.show()
 
     
 
 
 # Example of updating the plot
-update_plot(['sunflower', 'rose', 'rudabaga', 'sunflower', 'rose'])
+update_pl(['sunflower', 'rose', 'rudabaga', 'sunflower', 'rose'])
 
