@@ -8,7 +8,7 @@ from flask import Flask, request, jsonify
 
 def create_plants_df(selected_plants):
     # List of plants that go on upper level
-    tall_plants = ['sunflower']
+    tall_plants = ['summersquash', 'wintersquash']
 
     # Create plants dataFrame
     plant_num = len(selected_plants)
@@ -84,7 +84,6 @@ def update_pl(selected_plants):
 
 if __name__ == '__main__':
     request = json.loads(input())
-
     update_pl(request)
     '''
     # Example of updating the plot

@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors');
 const path = require('path');
+const bodyParser = require('body-parser');
 const { MongoClient } = require('mongodb');
 
 const app = express();
@@ -11,15 +12,13 @@ app.use(bodyParser.json());
 
 const uri = 'mongodb+srv://spartahack9:msu@plantdatabase.wvg4q13.mongodb.net/?retryWrites=true&w=majority';
 const client = new MongoClient(uri, {});
-const bodyParser = require('body-parser');
 const { spawn } = require('child_process');
 
 app.post('/api/process-list', (req, res) => {
-    const selectedItems = req.body;
-    console.log(selectedItems);
-    /*const pythonProcess = spawn('python', ['vis.py', JSON.stringify(selectedItems)]);
-    
-    child.stdin.setEncoding('utf-8');
+    let selectedItems = req.body;
+    let arguments = JSON.stringify(selectedItems);
+    const pythonProcess = spawn('python', ['vis.py']);
+
     // Handle Python script error
     pythonProcess.on('error', (error) => {
       console.error('Python script error:', error.message);
@@ -27,7 +26,7 @@ app.post('/api/process-list', (req, res) => {
     });
     
     // Handle process exit
-    pythonProcess.on('exit', (code) => {
+    pythonProcess.on('close', (code) => {
       if (code !== 0) {
         console.error(`Python script exited with code ${code}`);
         res.status(500).json({ error: 'Internal Server Error' });
@@ -37,10 +36,9 @@ app.post('/api/process-list', (req, res) => {
       }
     });
 
-    pythonProcess.on('error', (error) => {
-        console.error('Python script error:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
-    });*/
+    pythonProcess.stdin.setEncoding('utf-8');
+    pythonProcess.stdin.write(arguments);
+    pythonProcess.stdin.end();
   });
   
 
